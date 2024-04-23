@@ -37,7 +37,7 @@ public class PointXFieldKeyController extends KeyAdapter {
                 newValue = Double.parseDouble(string);
                 DoublePoint2D point = context.getPivotPoints().get(context.getCurrPivotPointPos());
                 point.u = newValue;
-                context.changeSplinePoint(context.getCurrPivotPointPos(), point);
+                context.changeSplinePivotPoint(context.getCurrPivotPointPos(), point);
             } catch (NumberFormatException ex){
                 DoublePoint2D point = context.getPivotPoints().get(context.getCurrPivotPointPos());
                 textField.setText(String.format("%.04f", point.u));

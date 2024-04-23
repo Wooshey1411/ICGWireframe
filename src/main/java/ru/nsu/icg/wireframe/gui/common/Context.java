@@ -43,7 +43,7 @@ public class Context {
     private double zoom;
 
     @Getter
-    private final List<DoublePoint2D> pivotPoints;
+    private List<DoublePoint2D> pivotPoints;
 
     @Getter
     private List<DoublePoint2D> splinePoints;
@@ -69,7 +69,7 @@ public class Context {
         countOfGenerating = 2;
     }
 
-    public void changeSplinePoint(int position, DoublePoint2D newPoint){
+    public void changeSplinePivotPoint(int position, DoublePoint2D newPoint){
         DoublePoint2D point = pivotPoints.get(position);
         point.u = newPoint.u;
         point.v = newPoint.v;
@@ -77,7 +77,7 @@ public class Context {
         splinePoints = BSplinesDriver.buildSplines(pivotPoints, countOfPointsInSpline);
         editorListener.onPointsChange();
     }
-    public void removeSplinePoint(int position){
+    public void removeSplinePivotPoint(int position){
         int newPos = NULL_POS;
 
         // Оставляет выбранную точку подсвеченной
@@ -97,7 +97,7 @@ public class Context {
         editorListener.onPointsChange();
     }
 
-    public void addSplinePoint(DoublePoint2D newPoint){
+    public void addSplinePivotPoint(DoublePoint2D newPoint){
         pivotPoints.add(newPoint);
         //currPointPos = pivotPoints.size() - 1; // если хотим, чтобы точка новая сразу выбиралась.
         splinePoints = BSplinesDriver.buildSplines(pivotPoints, countOfPointsInSpline);
@@ -136,6 +136,13 @@ public class Context {
 
         this.countOfPointsInSpline = countOfPointsInSpline;
         splinePoints = BSplinesDriver.buildSplines(pivotPoints, countOfPointsInSpline);
+        editorListener.onPointsChange();
+    }
+
+    public void setPivotPoints(List<DoublePoint2D> points){
+        this.pivotPoints = points;
+        splinePoints = BSplinesDriver.buildSplines(pivotPoints, countOfPointsInSpline);
+        editorParamsListener.onPointPosChange(this);
         editorListener.onPointsChange();
     }
 
@@ -184,6 +191,19 @@ public class Context {
     public void setEditorParamsListener(EditorParamsListener editorParamsListener){
         this.editorParamsListener = editorParamsListener;
         editorParamsListener.onParamsChange(this);
+    }
+
+    public void reset(){
+        pivotPoints.clear();
+        if(splinePoints != null) {
+            splinePoints.clear();
+        }
+        center.u = 0;
+        center.v = 0;
+        zoom = 1;
+        currPivotPointPos = NULL_POS;
+        editorListener.onPointsChange();
+        editorParamsListener.onPointPosChange(this);
     }
 
 }

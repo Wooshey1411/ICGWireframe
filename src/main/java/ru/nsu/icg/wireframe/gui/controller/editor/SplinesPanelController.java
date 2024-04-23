@@ -33,10 +33,10 @@ public class SplinesPanelController extends MouseAdapter {
             double cellSize = Context.CELL_SIZE / context.getZoom();
             int pos = findPositionOnPointByClick(e.getX(), e.getY());
             if(pos != Context.NULL_POS){
-                context.removeSplinePoint(pos);
+                context.removeSplinePivotPoint(pos);
                 return;
             }
-            context.addSplinePoint(new DoublePoint2D(TranslationUtils.xToU(center, context.getEditorWidth(), e.getX(), cellSize), TranslationUtils.yToV(center, context.getEditorHeight(), e.getY(), cellSize)));
+            context.addSplinePivotPoint(new DoublePoint2D(TranslationUtils.xToU(center, context.getEditorWidth(), e.getX(), cellSize), TranslationUtils.yToV(center, context.getEditorHeight(), e.getY(), cellSize)));
             return;
         }
         if (e.getButton() == MouseEvent.BUTTON1){
@@ -111,7 +111,7 @@ public class SplinesPanelController extends MouseAdapter {
             DoublePoint2D point2D = context.getPivotPoints().get(context.getCurrPivotPointPos());
             point2D.u += deltaV;
             point2D.v += deltaU;
-            context.changeSplinePoint(context.getCurrPivotPointPos(), point2D);
+            context.changeSplinePivotPoint(context.getCurrPivotPointPos(), point2D);
         }
 
     }
