@@ -18,9 +18,13 @@ public class Context {
 
     @Getter
     private int countOfPointsInSpline;
+    @Getter
+    private int countOfPointsInCircle;
+    @Getter
+    private int countOfGenerating;
 
     @Getter
-    private int currPointPos;
+    private int currPivotPointPos;
 
     @Setter
     private EditorListener editorListener;
@@ -44,13 +48,25 @@ public class Context {
     @Getter
     private List<DoublePoint2D> splinePoints;
 
+    @Getter
+    private int splinesColorR;
+    @Getter
+    private int splinesColorG;
+    @Getter
+    private int splinesColorB;
+
     public Context(){
         center = new DoublePoint2D(0, 0);
         zoom = 1;
         pivotPoints = new ArrayList<>();
         splinePoints = null;
-        currPointPos = NULL_POS;
+        currPivotPointPos = NULL_POS;
         countOfPointsInSpline = 1;
+        splinesColorR = 255;
+        splinesColorG = 255;
+        splinesColorB = 255;
+        countOfPointsInCircle = 1;
+        countOfGenerating = 2;
     }
 
     public void changeSplinePoint(int position, DoublePoint2D newPoint){
@@ -65,16 +81,16 @@ public class Context {
         int newPos = NULL_POS;
 
         // Оставляет выбранную точку подсвеченной
-        if(position > currPointPos){
-            newPos = currPointPos;
+        if(position > currPivotPointPos){
+            newPos = currPivotPointPos;
         }
-        if(position < currPointPos){
-            newPos = currPointPos - 1;
+        if(position < currPivotPointPos){
+            newPos = currPivotPointPos - 1;
         }
 
         pivotPoints.remove(position);
 
-        currPointPos = newPos;
+        currPivotPointPos = newPos;
 
         splinePoints = BSplinesDriver.buildSplines(pivotPoints, countOfPointsInSpline);
         editorParamsListener.onPointPosChange(this);
@@ -103,11 +119,11 @@ public class Context {
         editorListener.onEditorPositionChange();
     }
 
-    public void setCurrPointPos(int pos){
+    public void setCurrPivotPointPos(int pos){
         if (pos >= pivotPoints.size()){
             return;
         }
-        currPointPos = pos;
+        currPivotPointPos = pos;
         editorParamsListener.onPointPosChange(this);
         editorListener.onPointsChange();
     }
@@ -121,6 +137,48 @@ public class Context {
         this.countOfPointsInSpline = countOfPointsInSpline;
         splinePoints = BSplinesDriver.buildSplines(pivotPoints, countOfPointsInSpline);
         editorListener.onPointsChange();
+    }
+
+    public void setSplinesColorR(int r){
+        if (splinesColorR == r){
+            return;
+        }
+
+        this.splinesColorR = r;
+        editorListener.onPointsChange();
+    }
+    public void setSplinesColorG(int g){
+        if (splinesColorG == g){
+            return;
+        }
+
+        this.splinesColorG = g;
+        editorListener.onPointsChange();
+    }
+
+    public void setSplinesColorB(int b){
+        if (splinesColorB == b){
+            return;
+        }
+
+        this.splinesColorB = b;
+        editorListener.onPointsChange();
+    }
+
+    public void setCountOfPointsInCircle(int countOfPointsInCircle){
+        if (countOfPointsInCircle == this.countOfPointsInCircle){
+            return;
+        }
+
+        this.countOfPointsInCircle = countOfPointsInCircle;
+    }
+
+    public void setCountOfGenerating(int countOfGenerating){
+        if (countOfGenerating == this.countOfGenerating){
+            return;
+        }
+
+        this.countOfGenerating = countOfGenerating;
     }
 
     public void setEditorParamsListener(EditorParamsListener editorParamsListener){

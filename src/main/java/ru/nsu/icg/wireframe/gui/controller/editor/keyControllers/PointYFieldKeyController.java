@@ -25,7 +25,7 @@ public class PointYFieldKeyController extends KeyAdapter {
     public void keyPressed(KeyEvent e) {
         super.keyPressed(e);
         if(e.getKeyCode() == KeyEvent.VK_ENTER){
-            if(context.getCurrPointPos() == Context.NULL_POS){
+            if(context.getCurrPivotPointPos() == Context.NULL_POS){
                 editorView.showDialogWindow("Некорректный ввод", new JLabel("Не выбрана точка"));
                 textField.setText("");
                 return;
@@ -36,11 +36,11 @@ public class PointYFieldKeyController extends KeyAdapter {
                 String string = textField.getText();
                 string = string.replace(',', '.');
                 newValue = Double.parseDouble(string);
-                DoublePoint2D point = context.getPivotPoints().get(context.getCurrPointPos());
+                DoublePoint2D point = context.getPivotPoints().get(context.getCurrPivotPointPos());
                 point.v = newValue;
-                context.changeSplinePoint(context.getCurrPointPos(), point);
+                context.changeSplinePoint(context.getCurrPivotPointPos(), point);
             } catch (NumberFormatException ex){
-                DoublePoint2D point = context.getPivotPoints().get(context.getCurrPointPos());
+                DoublePoint2D point = context.getPivotPoints().get(context.getCurrPivotPointPos());
                 textField.setText(String.format("%.04f", point.v));
                 editorView.showDialogWindow("Некорректный ввод", new JLabel("Вы неправильно ввели число"));
             }

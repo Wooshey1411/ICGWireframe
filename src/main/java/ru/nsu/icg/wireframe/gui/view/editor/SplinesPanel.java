@@ -55,7 +55,7 @@ public class SplinesPanel extends JPanel implements EditorListener {
 
         Graphics2D g2D = (Graphics2D)g;
         drawAxesWithGrid(currentCenter, zoom, g2D);
-        drawPoints(context.getPivotPoints(), context.getCenter(), context.getZoom(), context.getCurrPointPos(), g2D);
+        drawPoints(context.getPivotPoints(), context.getCenter(), context.getZoom(), context.getCurrPivotPointPos(), g2D);
         drawSplines(context.getSplinePoints(), context.getCenter(), context.getZoom(), g2D);
     }
 
@@ -168,7 +168,7 @@ public class SplinesPanel extends JPanel implements EditorListener {
             return;
         }
 
-        g2D.setColor(Color.magenta);
+        g2D.setColor(new Color(context.getSplinesColorR(), context.getSplinesColorG(), context.getSplinesColorB()));
 
         double cellSize = basicCellSize / zoom;
 

@@ -42,7 +42,7 @@ public class SplinesPanelController extends MouseAdapter {
         if (e.getButton() == MouseEvent.BUTTON1){
             int pos = findPositionOnPointByClick(e.getX(), e.getY());
             if (pos != Context.NULL_POS){
-                context.setCurrPointPos(pos);
+                context.setCurrPivotPointPos(pos);
             }
         }
     }
@@ -58,7 +58,7 @@ public class SplinesPanelController extends MouseAdapter {
 
             int pos = findPositionOnPointByClick(e.getX(), e.getY());
             if (pos != Context.NULL_POS){
-                context.setCurrPointPos(pos);
+                context.setCurrPivotPointPos(pos);
                 isPointMoving = true;
                 return;
             }
@@ -108,10 +108,10 @@ public class SplinesPanelController extends MouseAdapter {
             double deltaU = u - prevU;
             prevV = v;
             prevU = u;
-            DoublePoint2D point2D = context.getPivotPoints().get(context.getCurrPointPos());
+            DoublePoint2D point2D = context.getPivotPoints().get(context.getCurrPivotPointPos());
             point2D.u += deltaV;
             point2D.v += deltaU;
-            context.changeSplinePoint(context.getCurrPointPos(), point2D);
+            context.changeSplinePoint(context.getCurrPivotPointPos(), point2D);
         }
 
     }

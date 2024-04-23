@@ -70,7 +70,11 @@ public class SettingsBar extends JPanel implements EditorParamsListener {
         yPosField.addKeyListener(pointYFieldKeyController);
 
         NSpinner.addChangeListener(e -> context.setCountOfPointsInSpline((int)NSpinner.getValue()));
-
+        redSpinner.addChangeListener(e -> context.setSplinesColorR((int)redSpinner.getValue()));
+        greenSpinner.addChangeListener(e -> context.setSplinesColorG((int)greenSpinner.getValue()));
+        blueSpinner.addChangeListener(e -> context.setSplinesColorB((int)blueSpinner.getValue()));
+        MSpinner.addChangeListener(e -> context.setCountOfGenerating((int)MSpinner.getValue()));
+        M1Spinner.addChangeListener(e -> context.setCountOfPointsInCircle((int)M1Spinner.getValue()));
 
         JPanel settingFields = getSettingsFields();
         settingFields.setBorder(BorderFactory.createEmptyBorder(0,0,0,40));
@@ -136,11 +140,14 @@ public class SettingsBar extends JPanel implements EditorParamsListener {
     @Override
     public void onParamsChange(Context context) {
         NSpinner.setValue(context.getCountOfPointsInSpline());
+        redSpinner.setValue(context.getSplinesColorR());
+        greenSpinner.setValue(context.getSplinesColorG());
+        blueSpinner.setValue(context.getSplinesColorB());
     }
 
     @Override
     public void onPointPosChange(Context context) {
-        int pos = context.getCurrPointPos();
+        int pos = context.getCurrPivotPointPos();
         if (pos == Context.NULL_POS){
             xPosField.setText("");
             yPosField.setText("");
