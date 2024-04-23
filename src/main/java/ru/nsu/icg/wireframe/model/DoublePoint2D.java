@@ -1,4 +1,4 @@
-package ru.nsu.icg.wireframe.gui.common;
+package ru.nsu.icg.wireframe.model;
 
 public class DoublePoint2D {
     public double u;
@@ -9,5 +9,4 @@ public class DoublePoint2D {
         this.v = v;
     }
 
-    public DoublePoint2D(){}
 }

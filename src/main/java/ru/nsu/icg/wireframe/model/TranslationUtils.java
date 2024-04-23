@@ -1,4 +1,4 @@
-package ru.nsu.icg.wireframe.gui.common;
+package ru.nsu.icg.wireframe.model;
 
 public class TranslationUtils {
 

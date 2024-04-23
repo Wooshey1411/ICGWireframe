@@ -1,8 +1,8 @@
 package ru.nsu.icg.wireframe.gui.controller.editor;
 
 import ru.nsu.icg.wireframe.gui.common.Context;
-import ru.nsu.icg.wireframe.gui.common.DoublePoint2D;
-import ru.nsu.icg.wireframe.gui.common.TranslationUtils;
+import ru.nsu.icg.wireframe.model.DoublePoint2D;
+import ru.nsu.icg.wireframe.model.TranslationUtils;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;

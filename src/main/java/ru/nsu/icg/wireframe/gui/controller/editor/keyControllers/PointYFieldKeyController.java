@@ -2,7 +2,7 @@ package ru.nsu.icg.wireframe.gui.controller.editor.keyControllers;
 
 import lombok.Setter;
 import ru.nsu.icg.wireframe.gui.common.Context;
-import ru.nsu.icg.wireframe.gui.common.DoublePoint2D;
+import ru.nsu.icg.wireframe.model.DoublePoint2D;
 import ru.nsu.icg.wireframe.gui.view.editor.IEditorView;
 
 import javax.swing.*;

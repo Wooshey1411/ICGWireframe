@@ -1,9 +1,9 @@
 package ru.nsu.icg.wireframe.gui.view.editor;
 
 import ru.nsu.icg.wireframe.gui.common.Context;
-import ru.nsu.icg.wireframe.gui.common.DoublePoint2D;
+import ru.nsu.icg.wireframe.model.DoublePoint2D;
 import ru.nsu.icg.wireframe.gui.common.EditorListener;
-import ru.nsu.icg.wireframe.gui.common.TranslationUtils;
+import ru.nsu.icg.wireframe.model.TranslationUtils;
 import ru.nsu.icg.wireframe.gui.controller.editor.SplinesPanelController;
 
 import javax.swing.*;
@@ -164,7 +164,7 @@ public class SplinesPanel extends JPanel implements EditorListener {
     }
 
     private void drawSplines(List<DoublePoint2D> points, DoublePoint2D center, double zoom, Graphics2D g2D){
-        if(points.isEmpty()){
+        if(points == null || points.isEmpty()){
             return;
         }
 

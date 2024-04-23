@@ -2,7 +2,7 @@ package ru.nsu.icg.wireframe.gui.view.editor;
 
 import lombok.Getter;
 import ru.nsu.icg.wireframe.gui.common.Context;
-import ru.nsu.icg.wireframe.gui.common.DoublePoint2D;
+import ru.nsu.icg.wireframe.model.DoublePoint2D;
 import ru.nsu.icg.wireframe.gui.common.EditorParamsListener;
 import ru.nsu.icg.wireframe.gui.controller.editor.EditorButtonsController;
 import ru.nsu.icg.wireframe.gui.controller.editor.keyControllers.PointXFieldKeyController;
@@ -11,8 +11,6 @@ import ru.nsu.icg.wireframe.gui.controller.editor.keyControllers.PointYFieldKeyC
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
 public class SettingsBar extends JPanel implements EditorParamsListener {
 
