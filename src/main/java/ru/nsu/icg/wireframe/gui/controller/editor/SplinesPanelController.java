@@ -72,6 +72,7 @@ public class SplinesPanelController extends MouseAdapter {
     public void mouseReleased(MouseEvent e) {
         super.mouseReleased(e);
         isPlaneMoving = false;
+        isPointMoving = false;
     }
 
     @Override
@@ -108,6 +109,10 @@ public class SplinesPanelController extends MouseAdapter {
             double deltaU = u - prevU;
             prevV = v;
             prevU = u;
+            int pos = context.getCurrPivotPointPos();
+            if(pos == Context.NULL_POS){
+                return;
+            }
             DoublePoint2D point2D = context.getPivotPoints().get(context.getCurrPivotPointPos());
             point2D.u += deltaV;
             point2D.v += deltaU;

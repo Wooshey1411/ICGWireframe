@@ -44,7 +44,7 @@ public class SettingsBar extends JPanel implements EditorParamsListener {
         setLayout(new BorderLayout());
         setBackground(Color.DARK_GRAY);
         setPreferredSize(new Dimension(Integer.MAX_VALUE, 160));
-
+        setDoubleBuffered(true);
         context.setEditorParamsListener(this);
 
         xPosField = new JTextField();

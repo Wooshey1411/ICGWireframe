@@ -1,7 +1,5 @@
 package ru.nsu.icg.wireframe.gui.view.editor;
 
-import ru.nsu.icg.wireframe.gui.view.window.ToolsBar;
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -20,6 +18,7 @@ public class MainPanel extends JFrame {
         setVisible(false);
         pack();
         setLocationRelativeTo(null);
+        this.createBufferStrategy(2);
     }
 
 }

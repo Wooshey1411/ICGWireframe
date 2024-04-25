@@ -38,6 +38,14 @@
             <version>3.4</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.ejml/ejml-all -->
+        <dependency>
+            <groupId>org.ejml</groupId>
+            <artifactId>ejml-all</artifactId>
+            <version>0.43.1</version>
+        </dependency>
+
+
     </dependencies>
 
     <properties>
@@ -45,5 +53,7 @@
         <maven.compiler.target>20</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
+
 
 </project>

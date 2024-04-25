@@ -67,7 +67,13 @@ public class EditorButtonsController {
             }
 
             double width = uMax - uMin;
+            if (width == 0){
+                width = 1;
+            }
             double height = vMax - vMin;
+            if (height == 0){
+                height = 1;
+            }
             List<DoublePoint2D> newPoints = new ArrayList<>();
 
             for (DoublePoint2D point2D : pivotPoints) {

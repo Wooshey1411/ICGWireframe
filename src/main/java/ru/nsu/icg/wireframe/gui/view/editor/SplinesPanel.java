@@ -1,16 +1,15 @@
 package ru.nsu.icg.wireframe.gui.view.editor;
 
 import ru.nsu.icg.wireframe.gui.common.Context;
-import ru.nsu.icg.wireframe.model.DoublePoint2D;
 import ru.nsu.icg.wireframe.gui.common.EditorListener;
-import ru.nsu.icg.wireframe.model.TranslationUtils;
 import ru.nsu.icg.wireframe.gui.controller.editor.SplinesPanelController;
+import ru.nsu.icg.wireframe.model.DoublePoint2D;
+import ru.nsu.icg.wireframe.model.TranslationUtils;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-
 import java.util.List;
 
 public class SplinesPanel extends JPanel implements EditorListener {
@@ -26,6 +25,7 @@ public class SplinesPanel extends JPanel implements EditorListener {
 
     public SplinesPanel(Context context){
         setBackground(Color.BLACK);
+        setDoubleBuffered(true);
         this.context = context;
         this.basicCellSize = Context.CELL_SIZE;
         context.setEditorListener(this);
