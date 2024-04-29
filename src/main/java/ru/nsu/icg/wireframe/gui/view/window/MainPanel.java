@@ -2,6 +2,8 @@ package ru.nsu.icg.wireframe.gui.view.window;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class MainPanel extends JFrame {
 
@@ -19,6 +21,7 @@ public class MainPanel extends JFrame {
         setVisible(true);
         pack();
         setLocationRelativeTo(null);
+        this.createBufferStrategy(2);
     }
 
 }

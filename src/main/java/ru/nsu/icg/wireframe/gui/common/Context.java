@@ -29,6 +29,10 @@ public class Context {
     @Setter
     private EditorListener editorListener;
 
+    @Setter
+    @Getter
+    private WireframeListener wireframeListener;
+
     private EditorParamsListener editorParamsListener;
 
     @Getter
@@ -55,6 +59,12 @@ public class Context {
     @Getter
     private int splinesColorB;
 
+    @Getter
+    private double angleX;
+
+    @Getter
+    private double angleY;
+
     public Context(){
         center = new DoublePoint2D(0, 0);
         zoom = 1;
@@ -67,6 +77,8 @@ public class Context {
         splinesColorB = 255;
         countOfPointsInCircle = 1;
         countOfGenerating = 2;
+        angleX = 0;
+        angleY = 0;
     }
 
     public void changeSplinePivotPoint(int position, DoublePoint2D newPoint){
@@ -79,18 +91,21 @@ public class Context {
     }
     public void removeSplinePivotPoint(int position){
         int newPos = NULL_POS;
+        if (currPivotPointPos != NULL_POS) {
+            // Оставляет выбранную точку подсвеченной
+            if (position > currPivotPointPos) {
+                newPos = currPivotPointPos;
+            }
+            if (position <= currPivotPointPos) {
+                newPos = currPivotPointPos - 1;
+            }
 
-        // Оставляет выбранную точку подсвеченной
-        if(position > currPivotPointPos){
-            newPos = currPivotPointPos;
-        }
-        if(position < currPivotPointPos){
-            newPos = currPivotPointPos - 1;
+            currPivotPointPos = newPos;
         }
 
         pivotPoints.remove(position);
 
-        currPivotPointPos = newPos;
+
 
         splinePoints = BSplinesDriver.buildSplines(pivotPoints, countOfPointsInSpline);
         editorParamsListener.onPointPosChange(this);
@@ -206,4 +221,20 @@ public class Context {
         editorParamsListener.onPointPosChange(this);
     }
 
+    public void setAngleX(double angleX) {
+        this.angleX = angleX;
+        System.out.println(angleX);
+        wireframeListener.onPointsChange();
+    }
+
+    public void setAngleY(double angleY) {
+        this.angleY = angleY;
+        wireframeListener.onPointsChange();
+    }
+
+    public void resetAngles(){
+        this.angleX = 0;
+        this.angleY = 0;
+        wireframeListener.onPointsChange();
+    }
 }

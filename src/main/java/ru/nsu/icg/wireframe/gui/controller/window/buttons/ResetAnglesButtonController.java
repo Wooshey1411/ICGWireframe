@@ -12,6 +12,6 @@ public class ResetAnglesButtonController extends ButtonController {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.out.println("RESET");
+        getContext().resetAngles();
     }
 }

@@ -4,6 +4,7 @@ import ru.nsu.icg.wireframe.gui.common.Context;
 import ru.nsu.icg.wireframe.model.DoublePoint2D;
 
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +17,8 @@ public class EditorButtonsController {
     }
 
     public ActionListener onApplyBtnClicked(){
-        return e -> System.out.println("APPLY CLICKED");
+        return e -> context.getWireframeListener().onPointsChange();
+
     }
 
     public ActionListener onZoomInClicked(){
