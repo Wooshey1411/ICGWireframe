@@ -23,6 +23,7 @@ public class BSplinesDriver {
         DoublePoint2D[] pivotPointsArr = pivotPoints.toArray(new DoublePoint2D[0]);
         double[][] G = new double[4][2];
         double[][] MG;
+        int initPos = 0;
         List<DoublePoint2D> splinePoints = new ArrayList<>();
         for (int i = 1; i < pivotPointsArr.length - 2; i++){
             G[0][0] = pivotPointsArr[i-1].v;
@@ -36,11 +37,15 @@ public class BSplinesDriver {
             SimpleMatrix Gmat = new SimpleMatrix(G);
             SimpleMatrix MGmat = M.mult(Gmat);
             MG = MGmat.toArray2();
-            for (int k = 0; k < countOfPointsInSpline+1; k++){
+            for (int k = initPos; k < countOfPointsInSpline+1; k++){
                 double t = k*1.0 / countOfPointsInSpline;
                 double u = t*t*t*MG[0][1] + t*t*MG[1][1] + t*MG[2][1] + MG[3][1];
                 double v = t*t*t*MG[0][0] + t*t*MG[1][0] + t*MG[2][0] + MG[3][0];
                 splinePoints.add(new DoublePoint2D(u,v));
+            }
+
+            if (i == 1){
+                initPos = 1;
             }
 
         }

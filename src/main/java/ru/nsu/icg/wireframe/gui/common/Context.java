@@ -36,6 +36,9 @@ public class Context {
     private EditorParamsListener editorParamsListener;
 
     @Getter
+    private int wireframePos;
+
+    @Getter
     @Setter
     private int editorWidth;
 
@@ -79,6 +82,7 @@ public class Context {
         countOfGenerating = 2;
         angleX = 0;
         angleY = 0;
+        wireframePos = 200;
     }
 
     public void changeSplinePivotPoint(int position, DoublePoint2D newPoint){
@@ -235,6 +239,14 @@ public class Context {
     public void resetAngles(){
         this.angleX = 0;
         this.angleY = 0;
+        wireframeListener.onPointsChange();
+    }
+
+    public void setWireframePos(int wireframePos){
+        if (wireframePos < 20 || wireframePos == this.wireframePos){
+            return;
+        }
+        this.wireframePos = wireframePos;
         wireframeListener.onPointsChange();
     }
 }

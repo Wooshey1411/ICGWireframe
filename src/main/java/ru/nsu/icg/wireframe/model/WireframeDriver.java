@@ -1,7 +1,5 @@
 package ru.nsu.icg.wireframe.model;
 
-import lombok.Getter;
-import lombok.Setter;
 import org.ejml.simple.SimpleMatrix;
 
 import java.util.ArrayList;
@@ -32,8 +30,7 @@ public class WireframeDriver {
 
         sectorAngleDeg /= countOfPointsInCircle;
         List<List<SimpleMatrix>> circlesPointsList = new ArrayList<>();
-        System.out.println(splines.size());
-        for (int i = 0; i < splines.size(); i+=1){
+        for (int i = 0; i < splines.size(); i+=countOfPointsInSpline){
             currAngle = 0;
             List<SimpleMatrix> points = new ArrayList<>();
             for (int j = 0; j < countOfGenerating*countOfPointsInCircle; j++){

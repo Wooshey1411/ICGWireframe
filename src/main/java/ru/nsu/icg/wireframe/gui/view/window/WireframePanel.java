@@ -8,8 +8,6 @@ import ru.nsu.icg.wireframe.model.WireframePoints;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.util.List;
 
 public class WireframePanel extends JPanel {
@@ -43,8 +41,8 @@ public class WireframePanel extends JPanel {
         SimpleMatrix normalizeMatrix = WireframeDriver.normalizeWireframePoints(wireframePoints);
         double[][] cameraMatrixRaw = {
                 {1, 0, 0, 0},
-                {0, 100, 0 , 0},
-                {0, 0, 100, 0},
+                {0, context.getWireframePos(), 0 , 0},
+                {0, 0, context.getWireframePos(), 0},
                 {1, 0, 0, 10}
         };
         double angleY = Math.toRadians(context.getAngleY());
@@ -55,10 +53,17 @@ public class WireframePanel extends JPanel {
                 {-Math.sin(angleY), 0, Math.cos(angleY), 0},
                 {0, 0, 0, 1}
         };
-        double[][] rotateMatrixXRaw = {
+        /*double[][] rotateMatrixXRaw = {
                 {1, 0, 0, 0},
                 {0, Math.cos(angleX), -Math.sin(angleX), 0},
                 {0, Math.sin(angleX), Math.cos(angleX), 0},
+                {0, 0, 0, 1}
+        };*/
+
+        double[][] rotateMatrixXRaw = {
+                {Math.cos(angleX), -Math.sin(angleX), 0, 0},
+                {Math.sin(angleX), Math.cos(angleX), 0, 0},
+                {0, 0, 1, 0},
                 {0, 0, 0, 1}
         };
         normalizeMatrix = normalizeMatrix.mult(new SimpleMatrix(rotateMatrixYRaw));
@@ -89,5 +94,41 @@ public class WireframePanel extends JPanel {
                         getWidth()/2 + (int)Math.round(m2.get(2)), getHeight()/2 + (int)Math.round(m2.get(1)));
             }
         }
+        double[] matrix = {80, 80, 80, 1};
+        SimpleMatrix center = new SimpleMatrix(matrix);
+        matrix = new double[]{60, 0, 0, 1};
+        SimpleMatrix axisX = new SimpleMatrix(matrix);
+        matrix = new double[]{0, -60, 0, 1};
+        SimpleMatrix axisY = new SimpleMatrix(matrix);
+        matrix = new double[]{0, 0, 60, 1};
+        SimpleMatrix axisZ = new SimpleMatrix(matrix);
+
+        SimpleMatrix rotate = new SimpleMatrix(rotateMatrixXRaw).mult(new SimpleMatrix(rotateMatrixYRaw));
+        axisX = axisX.transpose().mult(rotate);
+        axisY = axisY.transpose().mult(rotate);
+        axisZ = axisZ.transpose().mult(rotate);
+
+        g2D.drawLine((int)Math.round(center.get(2)), (int)Math.round(center.get(1)),
+                (int)Math.round(center.get(2)) + (int)Math.round(axisX.get(2)), (int)Math.round(center.get(1) + (int)Math.round(axisX.get(1))));
+
+        g2D.drawString("x", (int)Math.round(center.get(2)) + (int)Math.round(axisX.get(2))+5,
+                (int)Math.round(center.get(1) + (int)Math.round(axisX.get(1))) - 5);
+
+        g2D.setColor(Color.BLUE);
+
+        g2D.drawLine((int)Math.round(center.get(2)), (int)Math.round(center.get(1)),
+                (int)Math.round(center.get(2)) + (int)Math.round(axisY.get(2)), (int)Math.round(center.get(1) + (int)Math.round(axisY.get(1))));
+
+
+        g2D.drawString("y", (int)Math.round(center.get(2)) + (int)Math.round(axisY.get(2))+5,
+                (int)Math.round(center.get(1) + (int)Math.round(axisY.get(1))) - 5);
+
+        g2D.setColor(Color.RED);
+
+        g2D.drawLine((int)Math.round(center.get(2)), (int)Math.round(center.get(1)),
+                (int)Math.round(center.get(2)) + (int)Math.round(axisZ.get(2)), (int)Math.round(center.get(1) + (int)Math.round(axisZ.get(1))));
+
+        g2D.drawString("z", (int)Math.round(center.get(2)) + (int)Math.round(axisZ.get(2))+5,
+                (int)Math.round(center.get(1) + (int)Math.round(axisZ.get(1))) - 5);
     }
 }

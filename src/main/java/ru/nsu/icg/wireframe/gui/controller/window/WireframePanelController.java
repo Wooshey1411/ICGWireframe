@@ -34,6 +34,12 @@ public class WireframePanelController extends MouseAdapter {
     @Override
     public void mouseWheelMoved(MouseWheelEvent e) {
         super.mouseWheelMoved(e);
+        double coeff = 1.1;
+        if (e.getWheelRotation() < 0){
+            coeff = 0.9;
+        }
+        int pos = context.getWireframePos();
+        context.setWireframePos((int)Math.round(pos*coeff));
     }
 
     @Override
