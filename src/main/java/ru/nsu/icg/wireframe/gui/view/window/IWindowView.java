@@ -5,6 +5,10 @@ import javax.swing.*;
 public interface IWindowView {
     void showSplineEditor();
     JFrame getFrame();
-
     void showError(String msg);
+
+    void showAbout();
+
+    void showHelp();
+
 }

@@ -12,6 +12,6 @@ public class HelpButtonController extends ButtonController {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.out.println("HELP");
+        getView().showHelp();
     }
 }
