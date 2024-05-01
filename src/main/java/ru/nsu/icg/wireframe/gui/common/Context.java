@@ -225,6 +225,7 @@ public class Context {
     public void setEditorParamsListener(EditorParamsListener editorParamsListener){
         this.editorParamsListener = editorParamsListener;
         editorParamsListener.onParamsChange(this);
+        editorParamsListener.onPointPosChange(this);
     }
 
     public void reset(){

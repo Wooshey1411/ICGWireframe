@@ -45,7 +45,6 @@ public class SettingsBar extends JPanel implements EditorParamsListener {
         setBackground(Color.DARK_GRAY);
         setPreferredSize(new Dimension(Integer.MAX_VALUE, 160));
         setDoubleBuffered(true);
-        context.setEditorParamsListener(this);
 
         xPosField = new JTextField();
         xPosField.setFont(TEXT_FIELD_FONT);
@@ -80,6 +79,7 @@ public class SettingsBar extends JPanel implements EditorParamsListener {
         settingFields.setBorder(BorderFactory.createEmptyBorder(0,0,0,40));
         add(settingFields, BorderLayout.NORTH);
         add(getButtonsPanel(editorButtonsController), BorderLayout.SOUTH);
+        context.setEditorParamsListener(this);
     }
 
     private JPanel getSettingsFields() {
