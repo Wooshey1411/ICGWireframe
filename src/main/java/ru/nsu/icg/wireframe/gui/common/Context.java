@@ -1,10 +1,13 @@
 package ru.nsu.icg.wireframe.gui.common;
 
+import com.google.gson.Gson;
 import lombok.Getter;
 import lombok.Setter;
 import ru.nsu.icg.wireframe.model.BSplinesDriver;
 import ru.nsu.icg.wireframe.model.DoublePoint2D;
 
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.List;
 
@@ -26,12 +29,21 @@ public class Context {
     @Getter
     private int currPivotPointPos;
 
-    @Setter
     private EditorListener editorListener;
 
-    @Setter
+    public void setEditorListener(EditorListener editorListener) {
+        this.editorListener = editorListener;
+        editorListener.onPointsChange();
+        editorListener.onEditorPositionChange();
+    }
+
     @Getter
     private WireframeListener wireframeListener;
+
+    public void setWireframeListener(WireframeListener wireframeListener) {
+        this.wireframeListener = wireframeListener;
+        wireframeListener.onPointsChange();
+    }
 
     private EditorParamsListener editorParamsListener;
 
@@ -83,6 +95,9 @@ public class Context {
         angleX = 0;
         angleY = 0;
         wireframePos = 200;
+
+        setInitialModel();
+
     }
 
     public void changeSplinePivotPoint(int position, DoublePoint2D newPoint){
@@ -266,7 +281,16 @@ public class Context {
 
     }
 
-    public void setSettings(SettingsDTO settingsDTO){
+    public void setSettingsAndNotify(SettingsDTO settingsDTO){
+        setSettings(settingsDTO);
+        editorListener.onEditorPositionChange();
+        editorListener.onPointsChange();
+        editorParamsListener.onPointPosChange(this);
+        editorParamsListener.onParamsChange(this);
+        wireframeListener.onPointsChange();
+    }
+
+    private void setSettings(SettingsDTO settingsDTO){
         this.countOfPointsInSpline = settingsDTO.countOfPointsInSpline();
         this.countOfPointsInCircle = settingsDTO.countOfPointsInCircle();
         this.countOfGenerating = settingsDTO.countOfGenerating();
@@ -280,12 +304,25 @@ public class Context {
         this.splinesColorB = settingsDTO.splinesColorB();
         this.angleX = settingsDTO.angleX();
         this.angleY = settingsDTO.angleY();
-        editorListener.onEditorPositionChange();
-        editorListener.onPointsChange();
-        editorParamsListener.onPointPosChange(this);
-        editorParamsListener.onParamsChange(this);
-        splinePoints = BSplinesDriver.buildSplines(pivotPoints, countOfPointsInSpline);
-        wireframeListener.onPointsChange();
+        this.splinePoints = BSplinesDriver.buildSplines(pivotPoints, countOfPointsInSpline);
+    }
+
+    private void setInitialModel(){
+        try(InputStream reader = Context.class.getResourceAsStream("initial_model.wfm")){
+            if (reader == null){
+                throw new IOException("No file");
+            }
+
+            byte[] bytes = reader.readAllBytes();
+            String json = new String(bytes, StandardCharsets.UTF_8);
+            Gson gson = new Gson();
+            SettingsDTO settingsDTO = gson.fromJson(json, SettingsDTO.class);
+            setSettings(settingsDTO);
+        } catch (IOException ex){
+            System.out.println("No initial wireframe model " + ex.getLocalizedMessage());
+            System.exit(0);
+        }
+
     }
 
 }

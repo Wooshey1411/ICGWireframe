@@ -48,7 +48,7 @@ public class OpenButtonController extends ButtonController {
         try {
             Gson gson = new Gson();
             settingsDTO = gson.fromJson(readJson, SettingsDTO.class);
-            getContext().setSettings(settingsDTO);
+            getContext().setSettingsAndNotify(settingsDTO);
         } catch (JsonSyntaxException ex){
             System.out.println(ex.getLocalizedMessage());
             getView().showError("Unsupportable format");
