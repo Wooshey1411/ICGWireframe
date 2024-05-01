@@ -143,6 +143,8 @@ public class SettingsBar extends JPanel implements EditorParamsListener {
         redSpinner.setValue(context.getSplinesColorR());
         greenSpinner.setValue(context.getSplinesColorG());
         blueSpinner.setValue(context.getSplinesColorB());
+        MSpinner.setValue(context.getCountOfGenerating());
+        M1Spinner.setValue(context.getCountOfPointsInCircle());
     }
 
     @Override
