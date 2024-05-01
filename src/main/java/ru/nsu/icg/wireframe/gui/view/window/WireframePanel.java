@@ -15,7 +15,7 @@ public class WireframePanel extends JPanel {
     private final Context context;
 
     public WireframePanel(Context context, WireframePanelController wireframePanelController){
-        setBackground(Color.WHITE);
+        setBackground(Color.BLACK);
         setDoubleBuffered(true);
         this.context = context;
         addMouseListener(wireframePanelController);
@@ -37,7 +37,7 @@ public class WireframePanel extends JPanel {
             return;
         }
 
-        g2D.setColor(Color.GREEN);
+        g2D.setColor(new Color(context.getSplinesColorR(), context.getSplinesColorG(), context.getSplinesColorB()));
         SimpleMatrix normalizeMatrix = WireframeDriver.normalizeWireframePoints(wireframePoints);
         double[][] cameraMatrixRaw = {
                 {1, 0, 0, 0},
@@ -70,15 +70,17 @@ public class WireframePanel extends JPanel {
         normalizeMatrix = normalizeMatrix.mult(new SimpleMatrix(rotateMatrixXRaw));
         normalizeMatrix = normalizeMatrix.mult(new SimpleMatrix(cameraMatrixRaw));
 
+
         for (List<SimpleMatrix> spline : wireframePoints.getGeneratingPointsList()){
             for (int i = 0; i < spline.size() - 1; i++){
                 SimpleMatrix m1 = spline.get(i).transpose().mult(normalizeMatrix);
                 SimpleMatrix m2 = spline.get(i+1).transpose().mult(normalizeMatrix);
-
+                g2D.setColor(getColor(m1.get(0), m2.get(0), context.getSplinesColorR(), context.getSplinesColorG(), context.getSplinesColorB()));
                 g2D.drawLine(getWidth()/2 + (int)Math.round(m1.get(2)), getHeight()/2 + (int)Math.round(m1.get(1)),
                         getWidth()/2 + (int)Math.round(m2.get(2)), getHeight()/2 + (int)Math.round(m2.get(1)));
             }
         }
+
 
         for (List<SimpleMatrix> circle : wireframePoints.getCirclesPointsList()){
             for (int i = 0; i < circle.size(); i++){
@@ -89,11 +91,13 @@ public class WireframePanel extends JPanel {
                 } else {
                     m2 = circle.get(i + 1).transpose().mult(normalizeMatrix);
                 }
-
+                g2D.setColor(getColor(m1.get(0), m2.get(0), context.getSplinesColorR(), context.getSplinesColorG(), context.getSplinesColorB()));
                 g2D.drawLine(getWidth()/2 + (int)Math.round(m1.get(2)), getHeight()/2 + (int)Math.round(m1.get(1)),
                         getWidth()/2 + (int)Math.round(m2.get(2)), getHeight()/2 + (int)Math.round(m2.get(1)));
             }
         }
+
+        g2D.setColor(Color.GREEN);
         double[] matrix = {80, 80, 80, 1};
         SimpleMatrix center = new SimpleMatrix(matrix);
         matrix = new double[]{60, 0, 0, 1};
@@ -131,4 +135,20 @@ public class WireframePanel extends JPanel {
         g2D.drawString("z", (int)Math.round(center.get(2)) + (int)Math.round(axisZ.get(2))+5,
                 (int)Math.round(center.get(1) + (int)Math.round(axisZ.get(1))) - 5);
     }
+
+    private Color getColor(double x1, double x2, int r, int g, int b){
+        double coeff = ((x1 + x2) - 1) / 2;
+        if (coeff > 1){
+            return new Color((int)Math.round(0.5 * r), (int)Math.round(0.5 * g), (int)Math.round(0.5 * b));
+        }
+        if (coeff < -1){
+            return new Color(r, g, b);
+        }
+
+        coeff = -0.35 * coeff + 0.65;
+
+        return new Color((int)Math.round(coeff * r), (int)Math.round(coeff * g), (int)Math.round(coeff * b));
+
+    }
+
 }

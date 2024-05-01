@@ -227,7 +227,6 @@ public class Context {
 
     public void setAngleX(double angleX) {
         this.angleX = angleX;
-        System.out.println(angleX);
         wireframeListener.onPointsChange();
     }
 
@@ -249,4 +248,44 @@ public class Context {
         this.wireframePos = wireframePos;
         wireframeListener.onPointsChange();
     }
+
+    public SettingsDTO getSettingsDTO(){
+        return new SettingsDTO(countOfPointsInSpline,
+                countOfPointsInCircle,
+                countOfGenerating,
+                currPivotPointPos,
+                center,
+                wireframePos,
+                zoom,
+                pivotPoints,
+                splinesColorR,
+                splinesColorG,
+                splinesColorB,
+                angleX,
+                angleY);
+
+    }
+
+    public void setSettings(SettingsDTO settingsDTO){
+        this.countOfPointsInSpline = settingsDTO.countOfPointsInSpline();
+        this.countOfPointsInCircle = settingsDTO.countOfPointsInCircle();
+        this.countOfGenerating = settingsDTO.countOfGenerating();
+        this.currPivotPointPos = settingsDTO.currPivotPointPos();
+        this.center = settingsDTO.center();
+        this.wireframePos = settingsDTO.wireframePos();
+        this.zoom = settingsDTO.zoom();
+        this.pivotPoints = settingsDTO.pivotPoints();
+        this.splinesColorR = settingsDTO.splinesColorR();
+        this.splinesColorG = settingsDTO.splinesColorG();
+        this.splinesColorB = settingsDTO.splinesColorB();
+        this.angleX = settingsDTO.angleX();
+        this.angleY = settingsDTO.angleY();
+        editorListener.onEditorPositionChange();
+        editorListener.onPointsChange();
+        editorParamsListener.onPointPosChange(this);
+        editorParamsListener.onParamsChange(this);
+        splinePoints = BSplinesDriver.buildSplines(pivotPoints, countOfPointsInSpline);
+        wireframeListener.onPointsChange();
+    }
+
 }

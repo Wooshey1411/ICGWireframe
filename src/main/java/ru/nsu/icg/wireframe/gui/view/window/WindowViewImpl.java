@@ -17,20 +17,22 @@ public class WindowViewImpl implements IWindowView, WireframeListener {
 
     private final IEditorView editorView;
     public final WireframePanel wireframePanel;
+
+    public final JFrame mainWindow;
     public WindowViewImpl(Context context){
         FlatArcDarkOrangeIJTheme.setup();
 
         AboutController aboutController = new AboutController();
         HelpController helpController = new HelpController();
         OpenBSplineEditorController openBSplineEditorController = new OpenBSplineEditorController(this);
-        OpenController openController = new OpenController();
-        SaveController saveController = new SaveController();
+        OpenController openController = new OpenController(context, this);
+        SaveController saveController = new SaveController(context, this);
         ResetAnglesController resetAnglesController = new ResetAnglesController(context);
         WireframePanelController wireframePanelController = new WireframePanelController(context);
 
         List<WindowButton> windowButtons = List.of(
                 new WindowButton(new OpenButtonController(this, context), "Open", "open-icon.png"),
-                new WindowButton(new SaveButtonButtonController(this, context), "Save", "save-icon.png"),
+                new WindowButton(new SaveButtonController(this, context), "Save", "save-icon.png"),
                 new WindowButton(new OpenEditorButtonController(this, context), "Open B-spline editor", "editor-icon.png"),
                 new WindowButton(new ResetAnglesButtonController(this, context), "Reset angles", "reset-icon.png"),
                 new WindowButton(new HelpButtonController(this, context), "Help", "help-icon.png")
@@ -46,7 +48,7 @@ public class WindowViewImpl implements IWindowView, WireframeListener {
         wireframePanel = new WireframePanel(context, wireframePanelController);
         context.setWireframeListener(this);
 
-        new MainPanel(menuBar, toolsBar, wireframePanel);
+        mainWindow = new MainPanel(menuBar, toolsBar, wireframePanel);
 
         editorView = new EditorViewImpl(context);
 
@@ -55,6 +57,21 @@ public class WindowViewImpl implements IWindowView, WireframeListener {
     @Override
     public void showSplineEditor() {
         editorView.show();
+    }
+
+    @Override
+    public JFrame getFrame() {
+        return mainWindow;
+    }
+
+    @Override
+    public void showError(String msg) {
+        JOptionPane.showMessageDialog(
+                mainWindow,
+                msg,
+                "Error",
+                JOptionPane.ERROR_MESSAGE
+        );
     }
 
     @Override
