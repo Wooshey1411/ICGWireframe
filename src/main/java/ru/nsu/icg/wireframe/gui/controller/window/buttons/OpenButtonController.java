@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import ru.nsu.icg.wireframe.gui.common.Context;
 import ru.nsu.icg.wireframe.gui.common.SettingsDTO;
+import ru.nsu.icg.wireframe.gui.common.parser.BadFileException;
 import ru.nsu.icg.wireframe.gui.controller.files.WireframeOpeningChooser;
 import ru.nsu.icg.wireframe.gui.view.window.IWindowView;
 
@@ -52,7 +53,9 @@ public class OpenButtonController extends ButtonController {
         } catch (JsonSyntaxException ex){
             System.out.println(ex.getLocalizedMessage());
             getView().showError("Unsupportable format");
+        } catch (BadFileException ex){
+            System.out.println(ex.getLocalizedMessage());
+            getView().showError("File is broken");
         }
-
     }
 }

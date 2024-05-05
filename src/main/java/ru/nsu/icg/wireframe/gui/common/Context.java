@@ -3,6 +3,8 @@ package ru.nsu.icg.wireframe.gui.common;
 import com.google.gson.Gson;
 import lombok.Getter;
 import lombok.Setter;
+import ru.nsu.icg.wireframe.gui.common.parser.BadFileException;
+import ru.nsu.icg.wireframe.gui.common.parser.FileValidator;
 import ru.nsu.icg.wireframe.model.BSplinesDriver;
 import ru.nsu.icg.wireframe.model.DoublePoint2D;
 
@@ -292,17 +294,21 @@ public class Context {
     }
 
     private void setSettings(SettingsDTO settingsDTO){
-        this.countOfPointsInSpline = settingsDTO.countOfPointsInSpline();
-        this.countOfPointsInCircle = settingsDTO.countOfPointsInCircle();
-        this.countOfGenerating = settingsDTO.countOfGenerating();
-        this.currPivotPointPos = settingsDTO.currPivotPointPos();
+        this.countOfPointsInSpline = FileValidator.validateIntValue(settingsDTO.countOfPointsInSpline(), 1, 50);
+        this.countOfPointsInCircle = FileValidator.validateIntValue(settingsDTO.countOfPointsInCircle(), 1, 50);
+        this.countOfGenerating = FileValidator.validateIntValue(settingsDTO.countOfGenerating(), 2, 50);
+        int len = 0;
+        if (!settingsDTO.pivotPoints().isEmpty()){
+            len = settingsDTO.pivotPoints().size() - 1;
+        }
+        this.currPivotPointPos = FileValidator.validateIntValue(settingsDTO.currPivotPointPos(), -1, len);
         this.center = settingsDTO.center();
         this.wireframePos = settingsDTO.wireframePos();
-        this.zoom = settingsDTO.zoom();
+        this.zoom = FileValidator.validateDoubleValue(settingsDTO.zoom(), 0.1, 6);
         this.pivotPoints = settingsDTO.pivotPoints();
-        this.splinesColorR = settingsDTO.splinesColorR();
-        this.splinesColorG = settingsDTO.splinesColorG();
-        this.splinesColorB = settingsDTO.splinesColorB();
+        this.splinesColorR = FileValidator.validateIntValue(settingsDTO.splinesColorR(), 0, 255);
+        this.splinesColorG = FileValidator.validateIntValue(settingsDTO.splinesColorG(), 0, 255);
+        this.splinesColorB = FileValidator.validateIntValue(settingsDTO.splinesColorB(), 0, 255);
         this.angleX = settingsDTO.angleX();
         this.angleY = settingsDTO.angleY();
         this.splinePoints = BSplinesDriver.buildSplines(pivotPoints, countOfPointsInSpline);
@@ -318,7 +324,12 @@ public class Context {
             String json = new String(bytes, StandardCharsets.UTF_8);
             Gson gson = new Gson();
             SettingsDTO settingsDTO = gson.fromJson(json, SettingsDTO.class);
-            setSettings(settingsDTO);
+            try {
+                setSettings(settingsDTO);
+            } catch (BadFileException ex){
+                System.out.println(ex.getLocalizedMessage());
+                System.exit(0);
+            }
         } catch (IOException ex){
             System.out.println("No initial wireframe model " + ex.getLocalizedMessage());
             System.exit(0);
