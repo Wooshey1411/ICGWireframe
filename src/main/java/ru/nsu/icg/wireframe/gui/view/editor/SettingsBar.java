@@ -134,6 +134,7 @@ public class SettingsBar extends JPanel implements EditorParamsListener {
         button.setFont(BUTTON_FONT);
         button.setPreferredSize(BUTTON_SIZE);
         button.addActionListener(actionListener);
+        button.setFocusable(false);
         return button;
     }
 

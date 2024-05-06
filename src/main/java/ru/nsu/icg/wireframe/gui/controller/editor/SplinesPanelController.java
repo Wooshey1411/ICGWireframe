@@ -1,9 +1,11 @@
 package ru.nsu.icg.wireframe.gui.controller.editor;
 
+import lombok.Setter;
 import ru.nsu.icg.wireframe.gui.common.Context;
 import ru.nsu.icg.wireframe.model.DoublePoint2D;
 import ru.nsu.icg.wireframe.model.TranslationUtils;
 
+import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
@@ -19,6 +21,9 @@ public class SplinesPanelController extends MouseAdapter {
     private boolean isPlaneMoving;
     private boolean isPointMoving;
 
+    @Setter
+    private JPanel panel;
+
     public SplinesPanelController(Context context){
         this.context = context;
         isPlaneMoving = false;
@@ -28,6 +33,7 @@ public class SplinesPanelController extends MouseAdapter {
     @Override
     public void mouseClicked(MouseEvent e) {
         super.mouseClicked(e);
+        panel.requestFocus();
         if (e.getButton() == MouseEvent.BUTTON3) {
             DoublePoint2D center = context.getCenter();
             double cellSize = Context.CELL_SIZE / context.getZoom();

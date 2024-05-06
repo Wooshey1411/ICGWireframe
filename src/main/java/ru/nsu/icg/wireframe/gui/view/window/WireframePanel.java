@@ -68,7 +68,7 @@ public class WireframePanel extends JPanel {
         };
         normalizeMatrix = normalizeMatrix.mult(new SimpleMatrix(rotateMatrixYRaw));
         normalizeMatrix = normalizeMatrix.mult(new SimpleMatrix(rotateMatrixXRaw));
-        normalizeMatrix = normalizeMatrix.mult(new SimpleMatrix(cameraMatrixRaw));
+        normalizeMatrix = normalizeMatrix.mult(new SimpleMatrix(cameraMatrixRaw).transpose());
 
 
         for (List<SimpleMatrix> spline : wireframePoints.getGeneratingPointsList()){
@@ -76,8 +76,8 @@ public class WireframePanel extends JPanel {
                 SimpleMatrix m1 = spline.get(i).transpose().mult(normalizeMatrix);
                 SimpleMatrix m2 = spline.get(i+1).transpose().mult(normalizeMatrix);
                 g2D.setColor(getColor(m1.get(0), m2.get(0), context.getSplinesColorR(), context.getSplinesColorG(), context.getSplinesColorB()));
-                g2D.drawLine(getWidth()/2 + (int)Math.round(m1.get(2)), getHeight()/2 + (int)Math.round(m1.get(1)),
-                        getWidth()/2 + (int)Math.round(m2.get(2)), getHeight()/2 + (int)Math.round(m2.get(1)));
+                g2D.drawLine(getWidth()/2 + (int)Math.round(m1.get(2) / m1.get(3)), getHeight()/2 + (int)Math.round(m1.get(1) / m1.get(3)),
+                        getWidth()/2 + (int)Math.round(m2.get(2) / m2.get(3)), getHeight()/2 + (int)Math.round(m2.get(1) / m2.get(3)));
             }
         }
 
@@ -92,8 +92,8 @@ public class WireframePanel extends JPanel {
                     m2 = circle.get(i + 1).transpose().mult(normalizeMatrix);
                 }
                 g2D.setColor(getColor(m1.get(0), m2.get(0), context.getSplinesColorR(), context.getSplinesColorG(), context.getSplinesColorB()));
-                g2D.drawLine(getWidth()/2 + (int)Math.round(m1.get(2)), getHeight()/2 + (int)Math.round(m1.get(1)),
-                        getWidth()/2 + (int)Math.round(m2.get(2)), getHeight()/2 + (int)Math.round(m2.get(1)));
+                g2D.drawLine(getWidth()/2 + (int)Math.round(m1.get(2) / m1.get(3)), getHeight()/2 + (int)Math.round(m1.get(1) / m1.get(3)),
+                        getWidth()/2 + (int)Math.round(m2.get(2) / m2.get(3)), getHeight()/2 + (int)Math.round(m2.get(1) / m2.get(3)));
             }
         }
 

@@ -10,6 +10,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.List;
 
 public class SplinesPanel extends JPanel implements EditorListener {
@@ -30,6 +32,7 @@ public class SplinesPanel extends JPanel implements EditorListener {
         this.basicCellSize = Context.CELL_SIZE;
         context.setEditorListener(this);
         SplinesPanelController splinesPanelController = new SplinesPanelController(context);
+        splinesPanelController.setPanel(this);
         addMouseListener(splinesPanelController);
         addMouseMotionListener(splinesPanelController);
         addMouseWheelListener(splinesPanelController);
@@ -43,6 +46,18 @@ public class SplinesPanel extends JPanel implements EditorListener {
             }
         });
 
+        addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                super.keyPressed(e);
+                if (e.getKeyCode() == KeyEvent.VK_DELETE){
+                    int pos = context.getCurrPivotPointPos();
+                    if (pos != -1) {
+                        context.removeSplinePivotPoint(pos);
+                    }
+                }
+            }
+        });
     }
 
 

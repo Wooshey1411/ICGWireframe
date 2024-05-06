@@ -96,7 +96,7 @@ public class Context {
         countOfGenerating = 2;
         angleX = 0;
         angleY = 0;
-        wireframePos = 200;
+        wireframePos = 2000;
 
         setInitialModel();
 
